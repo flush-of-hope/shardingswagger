@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.wzk.demo.springboot.shardingswagger.mapper.UserMapper">
+    <!--<insert id="insertUser">
+            insert into  t_user VALUES(#{id},#{userId},#{name},#{age})
+    </insert>-->
+
+    <insert id="insertUser">
+        INSERT INTO  t_user(id,user_id,name,age) values(
+          #{id},#{userId},#{name},#{age}
+        )
+    </insert>
+
+    <select id="findId" resultType="com.wzk.demo.springboot.shardingswagger.pojo.User">
+        select id,user_id as userId,name,age from t_user
+    </select>
+
+    <update id="updateUser">
+        update t_user
+            set
+          <if test="userId!=null">user_id={userId}</if>
+          <if test="name!=null">name=#{name}</if>
+          <if test="age!=null">age=#{age}</if>
+        where 1=1
+        <if test="id!=null">and id={id}</if>
+    </update>
+
+    <delete id="deleteUser">
+        delete from t_user
+        where 1=1
+        <if test="id!=null">and id=#{id}</if>
+        <if test="id==null">and id=4685134685146851</if>
+    </delete>
+
+    </mapper>
