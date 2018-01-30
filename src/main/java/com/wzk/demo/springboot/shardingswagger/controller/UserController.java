@@ -6,6 +6,8 @@ import io.shardingjdbc.core.keygen.DefaultKeyGenerator;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @RestController
 public class UserController {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
@@ -34,9 +38,10 @@ public class UserController {
 				user.setUserId(2311);
 			}
 			userService.insertUser(user);
+
 			return user.getId();
 		}catch (Exception e){
-			e.printStackTrace();
+			LOGGER.error("添加用户失败",e);
 			return 1;
 		}
 	};
@@ -59,7 +64,7 @@ public class UserController {
 			userService.updateUser(user);
 			return 0;
 		}catch (Exception e){
-			e.printStackTrace();
+			LOGGER.error("更新用户失败",e);
 			return 1;
 		}
 	};
@@ -74,7 +79,7 @@ public class UserController {
 			userService.deleteUser(user);
 			return 0;
 		}catch (Exception e){
-			e.printStackTrace();
+			LOGGER.error("删除用户失败",e);
 			return 1;
 		}
 	};
