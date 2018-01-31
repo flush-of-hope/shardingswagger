@@ -1,25 +1,22 @@
 package com.wzk.demo.springboot.shardingswagger.controller;
 
+import com.wzk.demo.springboot.shardingswagger.dubbo.DubboDemoService;
 import com.wzk.demo.springboot.shardingswagger.pojo.User;
 import com.wzk.demo.springboot.shardingswagger.service.UserService;
 import io.shardingjdbc.core.keygen.DefaultKeyGenerator;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 public class UserController {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
 	@Autowired
 	private UserService userService;
 
@@ -41,7 +38,7 @@ public class UserController {
 
 			return user.getId();
 		}catch (Exception e){
-			LOGGER.error("添加用户失败",e);
+			e.printStackTrace();
 			return 1;
 		}
 	};
@@ -64,7 +61,7 @@ public class UserController {
 			userService.updateUser(user);
 			return 0;
 		}catch (Exception e){
-			LOGGER.error("更新用户失败",e);
+			e.printStackTrace();
 			return 1;
 		}
 	};
@@ -79,8 +76,19 @@ public class UserController {
 			userService.deleteUser(user);
 			return 0;
 		}catch (Exception e){
-			LOGGER.error("删除用户失败",e);
+			e.printStackTrace();
 			return 1;
 		}
 	};
+
+	@Autowired
+	private DubboDemoService DemoProvider;
+
+	@RequestMapping(value="dubboTest",method = RequestMethod.POST)
+	@ApiOperation(value="删除用户", notes="删除用户，必须传递Id,POST请求")
+	public Object dubboTest(){
+		Date date = DemoProvider.getDate();
+		return date;
+	};
+
 }

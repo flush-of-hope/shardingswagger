@@ -97,40 +97,41 @@
             <artifactId>sharding-jdbc-core-spring-boot-starter</artifactId>
             <version>2.0.1</version>
         </dependency>
-        <!--核心log4j2jar包
-         <dependency>
-             <groupId>org.apache.logging.log4j</groupId>
-             <artifactId>log4j-api</artifactId>
-             <version>2.4.1</version>
-         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/dubbo -->
         <dependency>
-             <groupId>org.apache.logging.log4j</groupId>
-             <artifactId>log4j-core</artifactId>
-             <version>2.4.1</version>
-         </dependency>
-         &lt;!&ndash;用于与slf4j保持桥接&ndash;&gt;
-         <dependency>
-             <groupId>org.apache.logging.log4j</groupId>
-             <artifactId>log4j-slf4j-impl</artifactId>
-             <version>2.4.1</version>
-         </dependency>
-         &lt;!&ndash;需要使用log4j2的AsyncLogger需要包含disruptor&ndash;&gt;
-         <dependency>
-             <groupId>com.lmax</groupId>
-             <artifactId>disruptor</artifactId>
-             <version>3.2.0</version>
-         </dependency>-->
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>2.5.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+
         <!--RocketMQ 客户端-->
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
             <version>4.2.0</version>
         </dependency>
-        <!--RocketMQ 工具类-->
         <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-tools</artifactId>
-            <version>4.2.0</version>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.3.3</version>
+         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.101tec/zkclient -->
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.10</version>
         </dependency>
 
     </dependencies>
