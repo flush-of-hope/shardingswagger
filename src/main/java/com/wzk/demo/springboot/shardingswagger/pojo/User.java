@@ -1,6 +1,8 @@
 package com.wzk.demo.springboot.shardingswagger.pojo;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
 	private Integer id;
 
