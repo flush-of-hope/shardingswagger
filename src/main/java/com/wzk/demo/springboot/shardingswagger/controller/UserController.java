@@ -28,7 +28,7 @@ public class UserController {
 	private DubboDemoService DemoProvider;
 
 	private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(UserController.class);
-     
+
 	@RequestMapping(value="insertUser", method ={RequestMethod.GET,RequestMethod.POST})
 	@ApiOperation(value="添加用户", notes="仅不需要传递Id，必须使用POST传递")
 	@ApiImplicitParam(name = "user", value = "需要添加的对象", required = true, paramType = "path", dataType = "com.wzk.demo.springboot.shardingswagger.pojo.User")
@@ -44,10 +44,9 @@ public class UserController {
 				user.setUserId(2311);
 			}
 			userService.insertUser(user);
-
 			return user.getId();
 		}catch (Exception e){
-			e.printStackTrace();
+			LOGGER.error("添加用户发生异常 :"+user.toString(),e);
 			return 1;
 		}
 	};
@@ -55,9 +54,42 @@ public class UserController {
 	@RequestMapping(value="getUser", method ={RequestMethod.GET,RequestMethod.POST})
 	@ApiOperation(value="查找用户", notes="不需要传递参数")
 	@ApiImplicitParams({
+			@ApiImplicitParam(name = "id", value = "eheache缓存Id", required = true, paramType = "path", dataType = "Integer")
 	})
-	public List<User> getList(){
-		return userService.userList();
+	public List<User> getList(Integer id){
+		try {
+			return userService.userList(id);
+		} catch (Exception e) {
+			LOGGER.error("查找用户发生异常 id:"+id,e);
+			return null;
+		}
+	}
+
+	@RequestMapping(value="deleteEheache", method ={RequestMethod.GET,RequestMethod.POST})
+	@ApiOperation(value="删除缓存", notes="传递Id")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "id", value = "eheache缓存Id", required = true, paramType = "path", dataType = "Integer")
+	})
+	public boolean deleteEheache(Integer id){
+		try {
+			userService.deleteEheache(id);
+			return true;
+		} catch (Exception e) {
+			LOGGER.error("删除缓存发生异常 id:"+id,e);
+			return false;
+		}
+	}
+
+	@RequestMapping(value="deleteEheacheAll", method ={RequestMethod.GET,RequestMethod.POST})
+	@ApiOperation(value="清空缓存", notes="不需要传递参数")
+	public boolean deleteEheacheAll(){
+		try {
+			userService.deleteEheacheAll();
+			return true;
+		} catch (Exception e) {
+			LOGGER.error("清空缓存发生异常",e);
+			return false;
+		}
 	}
 
 	@RequestMapping(value="updateUser", method =RequestMethod.POST)
@@ -70,7 +102,7 @@ public class UserController {
 			userService.updateUser(user);
 			return 0;
 		}catch (Exception e){
-			e.printStackTrace();
+			LOGGER.error("更新用户发生异常 ："+user.toString(),e);
 			return 1;
 		}
 	};
@@ -85,7 +117,7 @@ public class UserController {
 			userService.deleteUser(user);
 			return 0;
 		}catch (Exception e){
-			e.printStackTrace();
+			LOGGER.error("删除用户存发生异常 :"+user.toString(),e);
 			return 1;
 		}
 	};
@@ -107,14 +139,24 @@ public class UserController {
 	@RequestMapping(value="redisAdd",method = RequestMethod.POST)
 	@ApiOperation(value="添加redis数据", notes="添加redis数据，必须传递Id,POST请求")
 	public Object redisAdd(){
-		boolean end = redisClient.set("UUID", UUID.randomUUID().toString());
-		return end;
+		try {
+			boolean end = redisClient.set("UUID", UUID.randomUUID().toString());
+			return end;
+		} catch (Exception e) {
+			LOGGER.error("添加redis数据发生异常",e);
+			return null;
+		}
 	}
 
 	@RequestMapping(value="redisGet",method = RequestMethod.POST)
 	@ApiOperation(value="获取redis数据", notes="获取redis数据，必须传递Id,POST请求")
 	public Object redisGet(){
-		Object obj= redisClient.get("UUID");
-		return obj;
+		try {
+			Object obj= redisClient.get("UUID");
+			return obj;
+		} catch (Exception e) {
+			LOGGER.error("获取redis数据发生异常",e);
+			return null;
+		}
 	}
 }
