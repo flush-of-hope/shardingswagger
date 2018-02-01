@@ -2,11 +2,13 @@ package com.wzk.demo.springboot.shardingswagger.controller;
 
 import com.wzk.demo.springboot.shardingswagger.dubbo.DubboDemoService;
 import com.wzk.demo.springboot.shardingswagger.pojo.User;
+import com.wzk.demo.springboot.shardingswagger.redis.RedisClient;
 import com.wzk.demo.springboot.shardingswagger.service.UserService;
 import io.shardingjdbc.core.keygen.DefaultKeyGenerator;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,12 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RedisClient redisClient;
 
+	private DubboDemoService DemoProvider;
+
+	private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(UserController.class);
+     
 	@RequestMapping(value="insertUser", method ={RequestMethod.GET,RequestMethod.POST})
 	@ApiOperation(value="添加用户", notes="仅不需要传递Id，必须使用POST传递")
 	@ApiImplicitParam(name = "user", value = "需要添加的对象", required = true, paramType = "path", dataType = "com.wzk.demo.springboot.shardingswagger.pojo.User")
@@ -81,14 +90,31 @@ public class UserController {
 		}
 	};
 
-	@Autowired
-	private DubboDemoService DemoProvider;
 
 	@RequestMapping(value="dubboTest",method = RequestMethod.POST)
-	@ApiOperation(value="删除用户", notes="删除用户，必须传递Id,POST请求")
+	@ApiOperation(value="测试Dubbo", notes="测试Dubbo，POST请求")
 	public Object dubboTest(){
-		Date date = DemoProvider.getDate();
-		return date;
+		try {
+			Date date = DemoProvider.getDate();
+			return date;
+		} catch (Exception e) {
+			LOGGER.error("Dubbo测试异常",e);
+			return null;
+		}
+
 	};
 
+	@RequestMapping(value="redisAdd",method = RequestMethod.POST)
+	@ApiOperation(value="添加redis数据", notes="添加redis数据，必须传递Id,POST请求")
+	public Object redisAdd(){
+		boolean end = redisClient.set("UUID", UUID.randomUUID().toString());
+		return end;
+	}
+
+	@RequestMapping(value="redisGet",method = RequestMethod.POST)
+	@ApiOperation(value="获取redis数据", notes="获取redis数据，必须传递Id,POST请求")
+	public Object redisGet(){
+		Object obj= redisClient.get("UUID");
+		return obj;
+	}
 }
