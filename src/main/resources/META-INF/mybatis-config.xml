@@ -12,5 +12,6 @@
     <mappers>
         <mapper resource="META-INF/mappers/OrderMapper.xml"/>
         <mapper resource="META-INF/mappers/UserMapper.xml"/>
+        <mapper resource="META-INF/mappers/UserAddressMapper.xml"/>
     </mappers>
 </configuration>
