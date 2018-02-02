@@ -24,7 +24,7 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private RedisClient redisClient;
-
+	@Autowired
 	private DubboDemoService DemoProvider;
 
 	private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(UserController.class);
@@ -38,11 +38,11 @@ public class UserController {
 			DefaultKeyGenerator keyGenerator = new DefaultKeyGenerator();
 			int value = keyGenerator.generateKey().intValue();
 			user.setId(value);
-			if(user==null){
+
 				user.setName("wangzhaokai");
 				user.setAge(1);
 				user.setUserId(2311);
-			}
+
 			userService.insertUser(user);
 			return user.getId();
 		}catch (Exception e){

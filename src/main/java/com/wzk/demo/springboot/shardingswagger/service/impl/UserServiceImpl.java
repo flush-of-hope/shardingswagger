@@ -42,7 +42,7 @@ public class UserServiceImpl  implements UserService{
 	}
 
 	@Override
-	@Cacheable(key="#id")
+	@CacheEvict(key="#id")
 	public void deleteEheache(Integer id){
 
 	}
