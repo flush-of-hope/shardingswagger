@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,13 +19,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+
+//@CrossOrigin(origins = {"http://127.0.0.1:8080"}, maxAge = 3600,methods ={RequestMethod.GET,RequestMethod.POST})
+@CrossOrigin()
 @RestController
 public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RedisClient redisClient;
-	@Autowired
+
 	private DubboDemoService DemoProvider;
 
 	private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(UserController.class);
@@ -38,10 +42,9 @@ public class UserController {
 			DefaultKeyGenerator keyGenerator = new DefaultKeyGenerator();
 			int value = keyGenerator.generateKey().intValue();
 			user.setId(value);
-
-				user.setName("wangzhaokai");
-				user.setAge(1);
-				user.setUserId(2311);
+			user.setName("wangzhaokai");
+			user.setAge(1);
+			user.setUserId(2311);
 
 			userService.insertUser(user);
 			return user.getId();
@@ -58,7 +61,8 @@ public class UserController {
 	})
 	public List<User> getList(Integer id){
 		try {
-			return userService.userList(id);
+			List<User> list = userService.userList(id);
+			return list;
 		} catch (Exception e) {
 			LOGGER.error("查找用户发生异常 id:"+id,e);
 			return null;
