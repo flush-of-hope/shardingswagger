@@ -12,6 +12,8 @@ public class User implements Serializable {
 
 	private Integer age;
 
+	private String address;
+
 	@Override
 	public String toString() {
 		return "User{" +
@@ -19,7 +21,16 @@ public class User implements Serializable {
 				", userId=" + userId +
 				", name='" + name + '\'' +
 				", age=" + age +
+				", address='" + address + '\'' +
 				'}';
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getName() {
