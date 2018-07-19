@@ -9,11 +9,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EnableCaching
-//@ImportResource(locations={"classpath:application-dubbo.xml"})
-public class SpringBootMain {
-	public static void main(String[] args) {
-		ConfigurableApplicationContext applicationContext = SpringApplication.run(SpringBootMain.class, args);
 
-	}
+public class SpringBootMain {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(SpringBootMain.class, args);
+
+    }
 
 }

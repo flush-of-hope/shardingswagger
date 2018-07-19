@@ -1,12 +1,11 @@
 package com.wzk.demo.springboot.shardingswagger.mq;
 
+import java.util.UUID;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.MessageListener;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-
-import java.util.UUID;
 
 public class RocketMQConsumer {
 
